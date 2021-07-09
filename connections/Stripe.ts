@@ -9,8 +9,8 @@ import {
   RawCancelRequest,
   RawCaptureRequest,
 } from '@primer-io/app-framework';
-
-import HttpClient from '../common/HTTPClient';
+import { response } from 'express';
+import HTTPClient from '../common/HTTPClient';
 
 const StripeConnection: ProcessorConnection<APIKeyCredentials, CardDetails> = {
   name: 'STRIPE',
@@ -30,16 +30,7 @@ const StripeConnection: ProcessorConnection<APIKeyCredentials, CardDetails> = {
     request: RawAuthorizationRequest<APIKeyCredentials, CardDetails>,
   ): Promise<ParsedAuthorizationResponse> {
 
-    const stripe = require('stripe')(StripeConnection.configuration.apiKey);
-
-    const paymentIntent = stripe.paymentIntents.create({
-      amount: 1099,
-      currency: 'gbp',
-      payment_method_types: ['card'],
-      capture_method: 'manual'
-    });
-
-    return paymentIntent()
+    throw new Error('Method Not Implemented');
   },
 
   /**
@@ -50,11 +41,7 @@ const StripeConnection: ProcessorConnection<APIKeyCredentials, CardDetails> = {
     request: RawCaptureRequest<APIKeyCredentials>,
   ): Promise<ParsedCaptureResponse> {
 
-    const stripe = require('stripe')(StripeConnection.configuration.apiKey)
-    
-    const captureIntent = stripe.paymentIntents.capture(StripeConnection.configuration.accountId)
-
-    return captureIntent()
+    throw new Error('Method Not Implemented');
   },
 
   /**
@@ -64,11 +51,7 @@ const StripeConnection: ProcessorConnection<APIKeyCredentials, CardDetails> = {
   cancel(
     request: RawCancelRequest<APIKeyCredentials>,
   ): Promise<ParsedCancelResponse> {
-    const stripe = require('stripe')(StripeConnection.configuration.apiKey)
-
-    const cancelTransaction = stripe.paymentIntents.cancel(StripeConnection.configuration.accountId)
-
-    return cancelTransaction()
+    throw new Error('Method Not Implemented');
  
   },
 };
