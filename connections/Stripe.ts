@@ -18,18 +18,28 @@ const StripeConnection: ProcessorConnection<APIKeyCredentials, CardDetails> = {
   website: 'stripe.com',
 
   configuration: {
-    accountId: '...Find a unique ID for the accounnt annd put it here...',
-    apiKey: '...Paste your stripe API key here...',
+    accountId: 'acct_1JABhzB6ZoI1vpjB',
+    apiKey: 'pk_test_51JABhzB6ZoI1vpjBlt61JzI2Ttj0PvqCwJg3suMFkZJUlcowJZFsyiYcLTd7oYb9s8HWuTMb9LZFh86rwqmkZb6g00YZVVpezI',
   },
 
   /**
    *
    * You should authorize a transaction and return an appropriate response
-   */
+   */  
   authorize(
     request: RawAuthorizationRequest<APIKeyCredentials, CardDetails>,
   ): Promise<ParsedAuthorizationResponse> {
-    throw new Error('Method Not Implemented');
+
+    const stripe = require('stripe')(StripeConnection.configuration.apiKey);
+
+    const paymentIntent = stripe.paymentIntents.create({
+      amount: 1099,
+      currency: 'gbp',
+      payment_method_types: ['card'],
+      capture_method: 'manual'
+    });
+
+    return paymentIntent()
   },
 
   /**
@@ -39,7 +49,12 @@ const StripeConnection: ProcessorConnection<APIKeyCredentials, CardDetails> = {
   capture(
     request: RawCaptureRequest<APIKeyCredentials>,
   ): Promise<ParsedCaptureResponse> {
-    throw new Error('Method Not Implemented');
+
+    const stripe = require('stripe')(StripeConnection.configuration.apiKey)
+    
+    const captureIntent = stripe.paymentIntents.capture(StripeConnection.configuration.accountId)
+
+    return captureIntent()
   },
 
   /**
@@ -49,7 +64,12 @@ const StripeConnection: ProcessorConnection<APIKeyCredentials, CardDetails> = {
   cancel(
     request: RawCancelRequest<APIKeyCredentials>,
   ): Promise<ParsedCancelResponse> {
-    throw new Error('Method Not Implemented');
+    const stripe = require('stripe')(StripeConnection.configuration.apiKey)
+
+    const cancelTransaction = stripe.paymentIntents.cancel(StripeConnection.configuration.accountId)
+
+    return cancelTransaction()
+ 
   },
 };
 
