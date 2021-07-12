@@ -20,7 +20,7 @@ Last, but not least - "the Stripe API accepts form-encoded request bodies, retur
 
 Details on the `paymentIntent` object can be found here: https://stripe.com/docs/api/payment_intents/object.
 
-## Implement the** `authorize()` method in `Stripe.ts`
+## Implement the `authorize()` method in `Stripe.ts`
 
 **Parameters:**
 <br/>
