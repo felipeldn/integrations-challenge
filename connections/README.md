@@ -22,7 +22,7 @@ Details on the `paymentIntent` object can be found here: https://stripe.com/docs
 
 ## Implement the** `authorize()` method in `Stripe.ts`
 
-Parameters:
+**Parameters:**
 <br/>
 <br/>
 `confirm` - This should be manually set to `true` in order to allow the `paymentIntent` to be captured without any further confirmation being required - more details here: https://stripe.com/docs/api/payment_intents/create#create_payment_intent-confirm.
@@ -31,21 +31,30 @@ Parameters:
 
 `payment_method_data` - This particular parameter accepts payment method details for details which are not yet registered to a Stripe account. `payment_method_data` must be provided with a type key, and a `card_object` may also be attached. In this case, it has been hard-coded to `card` - more details here: https://stripe.com/docs/api/payment_intents/create#create_payment_intent-payment_method_data.
 
-Response:
+**Response:**
+<br/>
+<br/>
+
 The `paymentIntent` object will be returned with a `status` parameter of `requires_capture`.
 
 ## Implement the `capture()` method in `Stripe.ts`
 
 Don't forget to include the `paymentIntent` ID of the `paymentIntent` you want to capture in your API call. 
 
-Response:
+**Response:**
+<br/>
+<br/>
+
 The `paymentIntent` object will be returned with a `status` parameter of `succeeded`.
 
 ## Implement the `cancel()` method in `Stripe.ts`
 
 Don't forget to include the `paymentIntent` ID of the `paymentIntent` you want to cancel in your API call. 
 
-Response:
+**Response:**
+<br/>
+<br/>
+
 The `paymentIntent` object will be returned with a `status` parameter of `canceled`.
 
 ## Run the program
