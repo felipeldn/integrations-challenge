@@ -29,7 +29,7 @@ Details on the `paymentIntent` object can be found here: https://stripe.com/docs
 
 `capture_method` - In order to manually capture a payment, this parameter must be manually set to `manual`. The Stripe API automatically sets a `paymentIntent` to be `captured` immediately after being authorised, setting this parameter to `manual` overrides this - more details here: https://stripe.com/docs/payments/capture-later.
 
-`payment_method_data` - This particular parameter accepts payment method details for details which are not yet registered to a Stripe account. `payment_method_data` must be provided with a type key, and a `card_object` may also be attached. In this case, it has been hard-coded to `card` - more details here: https://stripe.com/docs/api/payment_intents/create#create_payment_intent-payment_method_data.
+`payment_method_data` - This particular parameter accepts payment method details for details which are not yet registered to a Stripe account. `payment_method_data` must be provided with a type key, and a `card_object` may also be attached if you wish to do so. In this particular example, it has been hard-coded to `card` - more details here: https://stripe.com/docs/api/payment_intents/create#create_payment_intent-payment_method_data.
 
 **Response:**
 <br/>
