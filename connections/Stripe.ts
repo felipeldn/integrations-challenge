@@ -60,6 +60,8 @@ const StripeConnection: ProcessorConnection<APIKeyCredentials, CardDetails> = {
       .then((result) => {
         response = JSON.parse(result.responseText)
 
+        // console.log(result)
+
         let parsedAuthorizationResponse :ParsedAuthorizationResponse
 
         if (result.statusCode == 200) {
@@ -119,6 +121,9 @@ const StripeConnection: ProcessorConnection<APIKeyCredentials, CardDetails> = {
     let parsedCaptureResponse = response
       .then((result) => {
         response = JSON.parse(result.responseText)
+
+        // console.log(result)
+
         let parsedCaptureResponse :ParsedCaptureResponse
 
         if (result.statusCode == 200) {
@@ -171,6 +176,9 @@ const StripeConnection: ProcessorConnection<APIKeyCredentials, CardDetails> = {
     let parsedCancelResponse = response
       .then((result) => {
         response = JSON.parse(result.responseText)
+
+        // console.log(result)
+
         let parsedCancelResponse :ParsedCancelResponse
 
         if (result.statusCode == 200) {
