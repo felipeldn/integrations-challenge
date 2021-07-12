@@ -2,7 +2,7 @@
 
 Below is an explanation of how to set up and run the code for the Processors challenge. For this exercise, a Processor connection using Stripe's API was required to be impletemented using the `authorize()`, `capture()` and `cancel()` functions.
 
-**Note:** it was required that Stripe's node SDK should **not** be used.
+**Note:** It was required that Stripe's node SDK should **not** be used.
 
 ## Set up
 
@@ -22,9 +22,9 @@ Details on the `paymentIntent` object can be found here: https://stripe.com/docs
 
 ## Implement the `authorize()` method in `Stripe.ts`
 
-Make direct HTTP calls to the Stripe API using HTTPClient
+**Make direct HTTP calls to the Stripe API using HTTPClient**
 
-- Use `HTTPClient.request(url, options)` to make HTTP requests to the Stripe API rather than using `fetch()`. The `HTTPClient.ts` has already been imported in `Stripe.ts`.
+- Use `HTTPClient.request(url, options)` to make HTTP requests to the Stripe API rather than using `fetch()`. `HTTPClient.ts` has already been imported in `Stripe.ts`.
 
 **paymentDetails - Parameters:** 
 <br/>
