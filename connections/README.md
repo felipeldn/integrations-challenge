@@ -22,7 +22,7 @@ Details on the `paymentIntent` object can be found here: https://stripe.com/docs
 
 ## Implement the `authorize()` method in `Stripe.ts`
 
-**Make direct HTTP calls to the Stripe API using HTTPClient**
+**Make direct HTTP calls to the Stripe API using `HTTPClient.ts`**
 
 - Use `HTTPClient.request(url, options)` to make HTTP requests to the Stripe API rather than using `fetch()`. `HTTPClient.ts` has already been imported in `Stripe.ts`.
 
