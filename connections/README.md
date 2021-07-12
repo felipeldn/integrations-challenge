@@ -20,9 +20,10 @@ Last, but not least - "the Stripe API accepts form-encoded request bodies, retur
 
 Details on the `paymentIntent` object can be found here: https://stripe.com/docs/api/payment_intents/object.
 
-**Implement the** `authorize()` **method in** `Stripe.ts`
+## Implement the** `authorize()` method in `Stripe.ts`
 
 Parameters:
+<br/>
 <br/>
 `confirm` - This should be manually set to `true` in order to allow the `paymentIntent` to be captured without any further confirmation being required - more details here: https://stripe.com/docs/api/payment_intents/create#create_payment_intent-confirm.
 
@@ -33,14 +34,14 @@ Parameters:
 Response:
 The `paymentIntent` object will be returned with a `status` parameter of `requires_capture`.
 
-**Implement the** `capture()` **method in** `Stripe.ts`
+## Implement the `capture()` method in `Stripe.ts`
 
 Don't forget to include the `paymentIntent` ID of the `paymentIntent` you want to capture in your API call. 
 
 Response:
 The `paymentIntent` object will be returned with a `status` parameter of `succeeded`.
 
-**Implement the** `cancel()` **method in** `Stripe.ts`
+## Implement the `cancel()` method in `Stripe.ts`
 
 Don't forget to include the `paymentIntent` ID of the `paymentIntent` you want to cancel in your API call. 
 
