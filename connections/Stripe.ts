@@ -101,8 +101,46 @@ const StripeConnection: ProcessorConnection<APIKeyCredentials, CardDetails> = {
     request: RawCaptureRequest<APIKeyCredentials>,
   ): Promise<ParsedCaptureResponse> {
 
+    let response = HTTPClient.request(
+      `https://api.stripe.com/v1/payment_intents/${request.processorTransactionId}/capture`,
+      {
+        method: 'post',
+        body: '',
+        headers: 
+          {
+            Authorization: `Bearer ${request.processorConfig.apiKey}`,
+            'Content-Type': 'application/x-www-form-urlencoded'
+          }
+      }
+    );
 
-    throw new Error('Method Not Implemented');
+    let parsedCaptureResponse = response
+      .then((result) => {
+        response = JSON.parse(result.responseText)
+        let parsedCaptureResponse :ParsedCaptureResponse
+
+        if (result.statusCode == 200) {
+          parsedCaptureResponse = {
+            transactionStatus: 'SETTLED'
+          }
+        } else {
+          parsedCaptureResponse = {
+            transactionStatus: 'FAILED',
+            errorMessage: response['error']['message']
+          }
+        }
+        return parsedCaptureResponse
+      })
+      .catch(() => {
+        let parsedAuthorizationResponse :ParsedAuthorizationResponse
+        parsedAuthorizationResponse = {
+          transactionStatus: 'FAILED',
+          errorMessage: 'Unable to connect with Stripe API, please try again'
+        }
+        return parsedAuthorizationResponse
+      })
+
+    return parsedCaptureResponse
   },
 
   /**
