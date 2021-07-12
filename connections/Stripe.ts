@@ -85,13 +85,15 @@ const StripeConnection: ProcessorConnection<APIKeyCredentials, CardDetails> = {
         let parsedAuthorizationResponse :ParsedAuthorizationResponse
           parsedAuthorizationResponse = {
             transactionStatus: 'FAILED',
-            errorMessage: 'Unable to connect with Stripe API, please try again'
+            errorMessage: 'Unable to connect with Stripe API, please try again.'
           }
         return parsedAuthorizationResponse
       })
 
       return authorizationResponse
   },
+
+
 
   /**
    * Capture a payment intent
@@ -135,13 +137,15 @@ const StripeConnection: ProcessorConnection<APIKeyCredentials, CardDetails> = {
         let parsedAuthorizationResponse :ParsedAuthorizationResponse
         parsedAuthorizationResponse = {
           transactionStatus: 'FAILED',
-          errorMessage: 'Unable to connect with Stripe API, please try again'
+          errorMessage: 'Unable to connect with Stripe API, please try again.'
         }
         return parsedAuthorizationResponse
       })
 
     return parsedCaptureResponse
   },
+
+
 
   /**
    * Cancel a payment intent
@@ -151,7 +155,47 @@ const StripeConnection: ProcessorConnection<APIKeyCredentials, CardDetails> = {
     request: RawCancelRequest<APIKeyCredentials>,
   ): Promise<ParsedCancelResponse> {
 
-    throw new Error('Method Not Implemented');
+    let response = HTTPClient.request(
+      `https://api.stripe.com/v1/payment_intents/${request.processorTransactionId}/cancel`,
+      {
+        method: 'post',
+        body: '',
+        headers: 
+          {
+            Authorization: `Bearer ${request.processorConfig.apiKey}`,
+            'Content-Type': 'application/x-www-form-urlencoded'
+          }
+      }
+    )
+
+    let parsedCancelResponse = response
+      .then((result) => {
+        response = JSON.parse(result.responseText)
+        let parsedCancelResponse :ParsedCancelResponse
+
+        if (result.statusCode == 200) {
+          parsedCancelResponse = {
+            transactionStatus: 'CANCELLED'
+          }
+        } else {
+          parsedCancelResponse = {
+            transactionStatus: 'FAILED',
+            errorMessage: response['error']['message']
+          }
+        }
+
+    return parsedCancelResponse
+    })
+    .catch(() => {
+      let parsedAuthorizationResponse :ParsedAuthorizationResponse
+      parsedAuthorizationResponse = {
+        transactionStatus: 'FAILED',
+        errorMessage: 'Unable to connect with Stripe API, please try again.'
+      }
+      return parsedAuthorizationResponse
+    })
+
+  return parsedCancelResponse
 
   },
 };
