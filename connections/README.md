@@ -26,6 +26,10 @@ Details on the `paymentIntent` object can be found here: https://stripe.com/docs
 
 - Use `HTTPClient.request(url, options)` to make HTTP requests to the Stripe API rather than using `fetch()`. `HTTPClient.ts` has already been imported in `Stripe.ts`.
 
+**function encodedPaymetDetails()**
+
+ - The Sripe API accepts `form-data`, this method encodes the data you wish to send to the Stripe API. It is then used in the `authorize()` `post` request, sending data with a `body`. 
+
 **paymentDetails - Parameters:** 
 <br/>
 
