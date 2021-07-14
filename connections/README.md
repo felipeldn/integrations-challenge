@@ -35,7 +35,7 @@ Details on the `paymentIntent` object can be found here: https://stripe.com/docs
 
 `confirm` - "Set to `true` to attempt to confirm this `paymentIntent` immediately. This parameter defaults to `false`. If payment succeeds, the `paymentIntent` will transition to the `succeeded` status (or `requires_capture`, if `capture_method` is set to `manual`)." - more details here: https://stripe.com/docs/api/payment_intents/create#create_payment_intent-confirm.
 
-`capture_method` - "To indicate that you want separate authorization and capture, set the value of `capture_method` option to manual when creating the `paymentIntent`. This parameter instructs Stripe to only authorize the amount on the customer’s card" - more details here: https://stripe.com/docs/payments/capture-later.
+`capture_method` - "To indicate that you want separate authorization and capture, set the value of `capture_method` option to `manual` when creating the `paymentIntent`. This parameter instructs Stripe to only authorize the amount on the customer’s card" - more details here: https://stripe.com/docs/payments/capture-later.
 
 `payment_method_data` - "If provided, this hash will be used to create a `paymentMethod`. The new `paymentMethod` will appear in the `payment_method` property on the `paymentIntent`". `payment_method_data` accepts payment method details for details which are not yet registered to a Stripe account. `payment_method_data` must be provided with a type key, and a `card_object` may also be attached if you wish to do so. In this particular example, it has been hard-coded to `card` - more details here: https://stripe.com/docs/api/payment_intents/create#create_payment_intent-payment_method_data.
 
