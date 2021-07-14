@@ -45,7 +45,7 @@ const StripeConnection: ProcessorConnection<APIKeyCredentials, CardDetails> = {
         `&payment_method_data[billing_details][name]=${request.paymentMethod.cardholderName}`
 
       return paymentDetails;
-  }
+    }
        
     return HTTPClient.request(
       'https://api.stripe.com/v1/payment_intents',
