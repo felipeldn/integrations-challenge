@@ -28,7 +28,7 @@ Details on the `paymentIntent` object can be found here: https://stripe.com/docs
 
 **function encodedPaymetDetails()**
 
- - The Sripe API accepts `form-data`, this method encodes the data you wish to send to the Stripe API. It is then used in the `authorize()` `post` request, sending data with a `body`. 
+ - The Sripe API accepts `form-data`, this method encodes the data you wish to send to the Stripe API. It is then used in the `authorize()` `post` request, sending a form-encoded request `body`. 
 
 **paymentDetails - Parameters:** 
 <br/>

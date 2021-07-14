@@ -58,35 +58,35 @@ const StripeConnection: ProcessorConnection<APIKeyCredentials, CardDetails> = {
             'Content-Type': 'application/x-www-form-urlencoded'
           }
       }
-    ).then((result) => {
-        const response = JSON.parse(result.responseText)
+      ).then((result) => {
+          const response = JSON.parse(result.responseText)
 
-        // console.log(response)
+          // console.log(result)
 
-        if (result.statusCode === 200) {
-          return {
-            transactionStatus: 'AUTHORIZED',
-            processorTransactionId: response['id']
-          } as ParsedAuthorizationResponse;
-        } 
-        else if (result.statusCode === 402) {
-          return {
-            transactionStatus: 'DECLINED',
-            declineReason: response['error']['message']
-          } as ParsedAuthorizationResponse;
-        } else {
+          if (result.statusCode === 200) {
+            return {
+              transactionStatus: 'AUTHORIZED',
+              processorTransactionId: response['id']
+            } as ParsedAuthorizationResponse;
+          } 
+          else if (result.statusCode === 402) {
+            return {
+              transactionStatus: 'DECLINED',
+              declineReason: response['error']['message']
+            } as ParsedAuthorizationResponse;
+          } else {
+            return {
+              transactionStatus: 'FAILED',
+              errorMessage: response['error']['message']
+            } as ParsedAuthorizationResponse;
+          }
+        })
+        .catch(() => {
           return {
             transactionStatus: 'FAILED',
-            errorMessage: response['error']['message']
-          } as ParsedAuthorizationResponse;
-        }
-      })
-      .catch(() => {
-        return {
-          transactionStatus: 'FAILED',
-          errorMessage: 'Unable to connect with Stripe API, please try again.'
-        }
-      })
+            errorMessage: 'Unable to connect with Stripe API, please try again.'
+          }
+        })
   },
 
 
@@ -110,7 +110,7 @@ const StripeConnection: ProcessorConnection<APIKeyCredentials, CardDetails> = {
             'Content-Type': 'application/x-www-form-urlencoded'
           }
       }
-    ).then((result) => {
+      ).then((result) => {
         const response = JSON.parse(result.responseText)
 
         if (result.statusCode === 200) {
