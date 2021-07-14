@@ -29,7 +29,7 @@ const StripeConnection: ProcessorConnection<APIKeyCredentials, CardDetails> = {
   authorize(
     request: RawAuthorizationRequest<APIKeyCredentials, CardDetails>,
   ): Promise<ParsedAuthorizationResponse> {
-    
+
   //POST data form-encoded as recommended in Stripe docs - https://stripe.com/docs/api
    
     function encodedPaymentDetails(request: RawAuthorizationRequest<APIKeyCredentials, CardDetails>): string {
@@ -54,7 +54,7 @@ const StripeConnection: ProcessorConnection<APIKeyCredentials, CardDetails> = {
         body: encodedPaymentDetails(request),
         headers:
           {
-            Authorization: `Bearer ${request.processorConfig.apiKey}`,
+            'Authorization': `Bearer ${request.processorConfig.apiKey}`,
             'Content-Type': 'application/x-www-form-urlencoded'
           }
       }
@@ -73,8 +73,7 @@ const StripeConnection: ProcessorConnection<APIKeyCredentials, CardDetails> = {
             transactionStatus: 'AUTHORIZED',
             processorTransactionId: response['id']
           }
-        }
-        else if (result.statusCode === 402) {
+        } else if (result.statusCode === 402) {
           parsedAuthorizationResponse = {
             transactionStatus: 'DECLINED',
             declineReason: response['error']['message']
@@ -116,7 +115,7 @@ const StripeConnection: ProcessorConnection<APIKeyCredentials, CardDetails> = {
         body: '',
         headers: 
           {
-            Authorization: `Bearer ${request.processorConfig.apiKey}`,
+            'Authorization': `Bearer ${request.processorConfig.apiKey}`,
             'Content-Type': 'application/x-www-form-urlencoded'
           }
       }
@@ -171,7 +170,7 @@ const StripeConnection: ProcessorConnection<APIKeyCredentials, CardDetails> = {
         body: '',
         headers: 
           {
-            Authorization: `Bearer ${request.processorConfig.apiKey}`,
+            'Authorization': `Bearer ${request.processorConfig.apiKey}`,
             'Content-Type': 'application/x-www-form-urlencoded'
           }
       }
