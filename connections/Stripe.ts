@@ -29,25 +29,29 @@ const StripeConnection: ProcessorConnection<APIKeyCredentials, CardDetails> = {
   authorize(
     request: RawAuthorizationRequest<APIKeyCredentials, CardDetails>,
   ): Promise<ParsedAuthorizationResponse> {
-
-    //POST data form-encoded as recommended in Stripe docs - https://stripe.com/docs/api
-    const paymentDetails = 
-      `amount=${request.amount}` +
-      `&currency=${request.currencyCode}` +
-      `&confirm=true` +
-      `&capture_method=manual` +
-      `&payment_method_data[type]=card` +
-      `&payment_method_data[card][number]=${request.paymentMethod.cardNumber}` +
-      `&payment_method_data[card][exp_month]=${request.paymentMethod.expiryMonth}` +
-      `&payment_method_data[card][exp_year]=${request.paymentMethod.expiryYear}` +
-      `&payment_method_data[billing_details][name]=${request.paymentMethod.cardholderName}`
-      
     
-    let response = HTTPClient.request(
+  //POST data form-encoded as recommended in Stripe docs - https://stripe.com/docs/api
+   
+    function encodedPaymentDetails(request: RawAuthorizationRequest<APIKeyCredentials, CardDetails>): string {
+      const paymentDetails = 
+        `amount=${request.amount}` +
+        `&currency=${request.currencyCode}` +
+        `&confirm=true` +
+        `&capture_method=manual` +
+        `&payment_method_data[type]=card` +
+        `&payment_method_data[card][number]=${request.paymentMethod.cardNumber}` +
+        `&payment_method_data[card][exp_month]=${request.paymentMethod.expiryMonth}` +
+        `&payment_method_data[card][exp_year]=${request.paymentMethod.expiryYear}` +
+        `&payment_method_data[billing_details][name]=${request.paymentMethod.cardholderName}`
+
+      return paymentDetails;
+  }
+       
+    const response = HTTPClient.request(
       'https://api.stripe.com/v1/payment_intents',
       {
         method: 'post',
-        body: paymentDetails,
+        body: encodedPaymentDetails(request),
         headers:
           {
             Authorization: `Bearer ${request.processorConfig.apiKey}`,
@@ -58,19 +62,19 @@ const StripeConnection: ProcessorConnection<APIKeyCredentials, CardDetails> = {
 
     let authorizationResponse = response
       .then((result) => {
-        response = JSON.parse(result.responseText)
+        const response = JSON.parse(result.responseText)
 
-        // console.log(result)
+        // console.log(response)
 
-        let parsedAuthorizationResponse :ParsedAuthorizationResponse
+        let parsedAuthorizationResponse: ParsedAuthorizationResponse
 
-        if (result.statusCode == 200) {
+        if (result.statusCode === 200) {
           parsedAuthorizationResponse = {
             transactionStatus: 'AUTHORIZED',
             processorTransactionId: response['id']
           }
         }
-        else if (result.statusCode == 402) {
+        else if (result.statusCode === 402) {
           parsedAuthorizationResponse = {
             transactionStatus: 'DECLINED',
             declineReason: response['error']['message']
@@ -84,7 +88,7 @@ const StripeConnection: ProcessorConnection<APIKeyCredentials, CardDetails> = {
       return parsedAuthorizationResponse
       })
       .catch(() => {
-        let parsedAuthorizationResponse :ParsedAuthorizationResponse
+        let parsedAuthorizationResponse: ParsedAuthorizationResponse
           parsedAuthorizationResponse = {
             transactionStatus: 'FAILED',
             errorMessage: 'Unable to connect with Stripe API, please try again.'
@@ -124,9 +128,9 @@ const StripeConnection: ProcessorConnection<APIKeyCredentials, CardDetails> = {
 
         // console.log(result)
 
-        let parsedCaptureResponse :ParsedCaptureResponse
+        let parsedCaptureResponse: ParsedCaptureResponse
 
-        if (result.statusCode == 200) {
+        if (result.statusCode === 200) {
           parsedCaptureResponse = {
             transactionStatus: 'SETTLED'
           }
@@ -139,7 +143,7 @@ const StripeConnection: ProcessorConnection<APIKeyCredentials, CardDetails> = {
         return parsedCaptureResponse
       })
       .catch(() => {
-        let parsedAuthorizationResponse :ParsedAuthorizationResponse
+        let parsedAuthorizationResponse: ParsedAuthorizationResponse
         parsedAuthorizationResponse = {
           transactionStatus: 'FAILED',
           errorMessage: 'Unable to connect with Stripe API, please try again.'
@@ -179,9 +183,9 @@ const StripeConnection: ProcessorConnection<APIKeyCredentials, CardDetails> = {
 
         // console.log(result)
 
-        let parsedCancelResponse :ParsedCancelResponse
+        let parsedCancelResponse: ParsedCancelResponse
 
-        if (result.statusCode == 200) {
+        if (result.statusCode === 200) {
           parsedCancelResponse = {
             transactionStatus: 'CANCELLED'
           }
@@ -195,7 +199,7 @@ const StripeConnection: ProcessorConnection<APIKeyCredentials, CardDetails> = {
     return parsedCancelResponse
     })
     .catch(() => {
-      let parsedAuthorizationResponse :ParsedAuthorizationResponse
+      let parsedAuthorizationResponse: ParsedAuthorizationResponse
       parsedAuthorizationResponse = {
         transactionStatus: 'FAILED',
         errorMessage: 'Unable to connect with Stripe API, please try again.'
